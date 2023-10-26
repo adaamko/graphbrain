@@ -130,7 +130,7 @@ def hedge(source):
         if not tokens:
             return None
         edges = tuple(_parsed_token(token) for token in tokens)
-        if len(edges) > 1:
+        if len(edges) > 1 or type(edges[0]) == Hyperedge:
             return Hyperedge(edges)
         elif len(edges) > 0:
             return Atom(edges[0], parens)
@@ -210,8 +210,7 @@ class Hyperedge(tuple):
         roots_only -- only the roots of the atoms will be used to create
         the string representation.
         """
-        s = ' '.join([edge.to_str(roots_only=roots_only)
-                      for edge in self if edge])
+        s = ' '.join([edge.to_str(roots_only=roots_only) for edge in self if edge])
         return ''.join(('(', s, ')'))
 
     def label(self):
